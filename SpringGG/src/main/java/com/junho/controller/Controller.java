@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.junho.dto.ChampionLotation;
 import com.junho.dto.ChampionMastery;
-import com.junho.dto.CurrentGameInfo;
 import com.junho.dto.MatchList;
 import com.junho.dto.Summoner;
 import com.junho.util.ChampionLotationParser;
 import com.junho.util.ChampionMasteryParser;
-import com.junho.util.CurrentGameInfoParser;
 import com.junho.util.MatchListParser;
 import com.junho.util.SummonerParser;
 
@@ -51,11 +49,6 @@ public class Controller {
 		MatchList matchList = matchListParser.getJsonData(accountId);
 		
 		System.out.println(matchList.toString());
-		
-		// 현재 게임정보
-		CurrentGameInfoParser currentGameInfoParser = new CurrentGameInfoParser();
-		CurrentGameInfo currentGameInfo = currentGameInfoParser.getJsonData(summonerid);
-		System.out.println(currentGameInfo.toString());
 		
 		
 		if(summoner != null && !summoner.equals(null)) {
