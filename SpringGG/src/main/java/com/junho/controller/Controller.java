@@ -40,8 +40,7 @@ public class Controller {
 		
 		// 로테이션 정보
 		ChampionLotationParser championLotationParser = new ChampionLotationParser();
-		ChampionLotation championLotation = championLotationParser.getJsonData();
-		
+		ChampionLotation championLotation = championLotationParser.getJsonData();		
 //		System.out.println(championLotation.toString());
 		
 		// 전적 리스트
