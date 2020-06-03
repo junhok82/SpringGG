@@ -50,7 +50,6 @@ public class Controller {
 		
 		System.out.println(matchList.toString());
 		
-		
 		if(summoner != null && !summoner.equals(null)) {
 			return new ResponseEntity<Summoner>(summoner,HttpStatus.OK);
 		}
