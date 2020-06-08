@@ -1,7 +1,8 @@
 package com.junho.controller;
 
-import java.util.List;
+import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,28 +10,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.junho.dto.ChampionLotation;
-import com.junho.dto.ChampionMastery;
-import com.junho.dto.CurrentGameInfo;
-import com.junho.dto.MatchList;
 import com.junho.dto.Summoner;
-import com.junho.util.ChampionLotationParser;
-import com.junho.util.ChampionMasteryParser;
-import com.junho.util.CurrentGameInfoParser;
-import com.junho.util.MatchListParser;
+import com.junho.service.SummonerService;
 import com.junho.util.SummonerParser;
 
 @RestController
 @CrossOrigin(origins= {"*"}, maxAge=6000)
 public class Controller {
 
+	@Autowired
+	private SummonerService summonerService;
+	
 	@GetMapping(value = "/summoner/{name}")
 	public ResponseEntity<Summoner> summoner(@PathVariable String name) {
 		
-		// 소환사 정보
-		SummonerParser summonerParser = new SummonerParser();
-		Summoner summoner = summonerParser.getJsonData(name);
+		Summoner summoner = new Summoner();
 		
+		// findByName
+		summoner = summonerService.findByName(name);
+		try {
+			if(summoner.getName().equals(name)) {		
+				System.out.println(summoner.getName() + " : DB에서 찾음");
+			}
+		} catch(Exception e) { 	// DB에 없다면 API에서 소환사 정보 가져오기
+			SummonerParser summonerParser = new SummonerParser();
+			summoner = summonerParser.getJsonData(name);
+			summonerService.insertSummoner(summoner);	// 소환사 정보 DB에 추가
+		}
+		
+		/*
 		// 숙련도 정보 
 		String summonerid = summoner.getId();
 		ChampionMasteryParser championMasteryParser = new ChampionMasteryParser();
@@ -57,6 +65,7 @@ public class Controller {
 		CurrentGameInfoParser currentGameInfoParser = new CurrentGameInfoParser();
 		CurrentGameInfo currentGameInfo = currentGameInfoParser.getJsonData(summonerid);
 		System.out.println("현재 게임 정보 : " + currentGameInfo.toString());
+		*/
 		
 		if(summoner != null && !summoner.equals(null)) {
 			return new ResponseEntity<Summoner>(summoner,HttpStatus.OK);

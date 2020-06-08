@@ -10,8 +10,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.junho.dto.Summoner;
 
-
-
 public class SummonerParser {
 	
 	public Summoner getJsonData(String name) {
