@@ -1,6 +1,6 @@
 package com.junho.controller;
 
-import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.junho.dto.ChampionMastery;
 import com.junho.dto.Summoner;
 import com.junho.service.SummonerService;
+import com.junho.util.ChampionMasteryParser;
 import com.junho.util.SummonerParser;
 
 @RestController
@@ -35,20 +37,18 @@ public class Controller {
 		} catch(Exception e) { 	// DB에 없다면 API에서 소환사 정보 가져오기
 			SummonerParser summonerParser = new SummonerParser();
 			summoner = summonerParser.getJsonData(name);
-			summonerService.insertSummoner(summoner);	// 소환사 정보 DB에 추가
+			if(summoner != null) {	// API에 정보가 있다면 소환사 정보 DB에 추가
+				summonerService.insertSummoner(summoner);
+			}
 		}
 		
-		/*
+		
 		// 숙련도 정보 
 		String summonerid = summoner.getId();
 		ChampionMasteryParser championMasteryParser = new ChampionMasteryParser();
 		List<ChampionMastery> championMasteryList = championMasteryParser.getJsonData(summonerid);
-		System.out.println("--- 챔피언 숙련도 정보 --- ");
-		for(ChampionMastery c : championMasteryList) {
-			System.out.println(c.toString());
-		}
 		
-		
+		/*
 		// 로테이션 정보
 		ChampionLotationParser championLotationParser = new ChampionLotationParser();
 		ChampionLotation championLotation = championLotationParser.getJsonData();		
