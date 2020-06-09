@@ -11,6 +11,7 @@
 	<input type="text" id="txt" value="소환사 이름 검색">
 	<button id="btn">검색</button>
 	<p id="info"></p>
+	<img src="img/CHALLENGER.png">
 
 	<!-- ajax통신을 위한 스크립트 -->
 	<script>
@@ -27,7 +28,8 @@
 					success : function(data) {
 						$("#info").empty();	
 						$("#info").append("<img src='http://ddragon.leagueoflegends.com/cdn/10.11.1/img/profileicon/" + data.profileIconId + ".png'/> <br>");
-						$("#info").append(data.name + "<br>");		
+						$("#info").append(data.name + "<br>");
+						//$("#info").append("<img src='img/" + data.tier + ".png'/> <br>");	
 					}
 				});//ajax
 			});//btn 
